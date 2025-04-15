@@ -17,5 +17,6 @@ class Visit extends Model
         'address',
         'visit_date',
         'visit_time',
+        'seen'
     ];
 }
