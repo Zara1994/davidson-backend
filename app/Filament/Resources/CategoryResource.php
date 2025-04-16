@@ -31,9 +31,9 @@ class CategoryResource extends Resource
                 TextInput::make('name')->required(),
                 Textarea::make('description')->required(),
                 FileUpload::make('image')
-                    ->image()
-                    ->disk('tmp')
-                    ->visibility('public'),
+                    ->disk('s3')
+                    ->directory('uploads') // или без папки
+                    ->visibility('public')
             ]);
     }
 
