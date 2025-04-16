@@ -17,23 +17,22 @@ class ProductResource extends Resource
     protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-cube';
-    protected static ?string $navigationLabel = 'Продукты';
-    protected static ?string $modelLabel = 'Продукт';
+    protected static ?string $navigationLabel = 'Products';
+    protected static ?string $modelLabel = 'Product';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Название')
+                    ->label('Name')
                     ->required(),
 
                 Forms\Components\TextInput::make('sizes')
-                    ->label('Размеры')
-                    ->placeholder('Например: S, M, L, XL'),
+                    ->label('Sizes'),
 
                 Forms\Components\Textarea::make('description')
-                    ->label('Описание')
+                    ->label('Description')
                     ->rows(4),
 
                 FileUpload::make('image')
@@ -43,7 +42,7 @@ class ProductResource extends Resource
                     ->visibility('public'),
 
                 Forms\Components\Select::make('category_id')
-                    ->label('Категория')
+                    ->label('Category')
                     ->relationship('category', 'name')
                     ->searchable()
                     ->required(),
@@ -55,32 +54,31 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Название')
+                    ->label('Name')
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('sizes')
-                    ->label('Размеры'),
+                    ->label('Sizes'),
 
                 Tables\Columns\TextColumn::make('category.name')
-                    ->label('Категория')
+                    ->label('Category')
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('Изображение')
+                    ->label('Image')
                     ->height(50),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Создан')
+                    ->label('Created at')
                     ->dateTime('d.m.Y H:i'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->label('Редактировать'),
-                Tables\Actions\DeleteAction::make()->label('Удалить'),
+                Tables\Actions\EditAction::make()->label('Edit'),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make()->label('Удалить выбранные'),
+                Tables\Actions\DeleteBulkAction::make()->label('Delete'),
             ]);
     }
 

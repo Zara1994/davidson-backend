@@ -22,6 +22,8 @@ class PrоjectResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Projects';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -46,19 +48,19 @@ class PrоjectResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Название')
+                    ->label('Name')
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('description')
-                    ->label('Описание')
+                    ->label('Description')
                     ->limit(),
 
                 Tables\Columns\ImageColumn::make('photo_before')
-                    ->label('Изображение до')
+                    ->label('Photo before')
                     ->disk('public'),
                 Tables\Columns\ImageColumn::make('photo_after')
-                    ->label('Изображение после')
+                    ->label('Photo after')
                     ->disk('public'),
             ])
             ->filters([

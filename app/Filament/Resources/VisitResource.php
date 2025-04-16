@@ -16,37 +16,37 @@ class VisitResource extends Resource
     protected static ?string $model = Visit::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar';
-    protected static ?string $navigationLabel = 'Визиты';
+    protected static ?string $navigationLabel = 'Visits';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Имя')
+                    ->label('Name')
                     ->required(),
 
                 Forms\Components\TextInput::make('email')
-                    ->label('Электронная почта')
+                    ->label('Email')
                     ->email()
                     ->required(),
 
                 Forms\Components\TextInput::make('phone_number')
-                    ->label('Номер телефона')
+                    ->label('Phone number')
                     ->tel()
                     ->required(),
 
                 Forms\Components\TextInput::make('address')
-                    ->label('Адрес')
+                    ->label('Address')
                     ->required(),
 
                 Forms\Components\DateTimePicker::make('visit_date')
-                    ->label('Дата визита')
+                    ->label('Visit Date')
                     ->required()
                     ->minDate(now()),
 
                 Forms\Components\TimePicker::make('visit_time')
-                    ->label('Время визита')
+                    ->label('Visit Time')
                     ->required(),
             ]);
     }
@@ -56,37 +56,36 @@ class VisitResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Имя')
+                    ->label('Name')
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('email')
-                    ->label('Электронная почта')
+                    ->label('Email')
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('phone_number')
-                    ->label('Телефон')
+                    ->label('Phone number')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('address')
-                    ->label('Адрес')
+                    ->label('Address')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('visit_date')
-                    ->label('Дата визита')
+                    ->label('Visit date')
                     ->sortable()
                     ->dateTime('d.m.Y'),
 
                 Tables\Columns\TextColumn::make('visit_time')
-                    ->label('Время визита')
+                    ->label('Visit time')
                     ->sortable(),
-               
+
             ])
             ->actions([
                 // Добавляем кастомное действие
                 Action::make('markAsSeen')
-                    ->label('Отметить как просмотренный')
                     ->action(function ($record) {
                         // Обновляем поле seen на true
                         $record->update(['seen' => true]);
@@ -95,8 +94,6 @@ class VisitResource extends Resource
                     ->color('success')
                     ->icon('heroicon-s-eye'),
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

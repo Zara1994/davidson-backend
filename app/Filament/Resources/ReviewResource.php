@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ReviewResource extends Resource
 {
     protected static ?string $model = Review::class;
+    protected static ?string $navigationLabel = 'Projects';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -36,12 +37,12 @@ class ReviewResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Название')
+                    ->label('Name')
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('text')
-                    ->label('Описание')
+                    ->label('Text')
                     ->limit(50),
 
             ])

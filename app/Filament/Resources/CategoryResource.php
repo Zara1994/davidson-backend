@@ -21,7 +21,7 @@ class CategoryResource extends Resource
     protected static ?string $model = Category::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationLabel = 'Категории';
+    protected static ?string $navigationLabel = 'Categories';
 
 
     public static function form(Form $form): Form
@@ -42,16 +42,16 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Название')
+                    ->label('Name')
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('description')
-                    ->label('Описание')
+                    ->label('Description')
                     ->limit(50),
 
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('Изображение')
+                    ->label('Image')
                     ->disk('public'),
             ])
             ->filters([
