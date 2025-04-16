@@ -32,7 +32,7 @@ class CategoryResource extends Resource
                 Textarea::make('description')->required(),
                 FileUpload::make('image')
                     ->image()
-                    ->directory('/temp/categories') // ✅ сохраняем в "categories"
+                    ->directory('/tmp/categories') // ✅ сохраняем в "categories"
                     ->disk('public')
                     ->visibility('public'),
             ]);
