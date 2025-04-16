@@ -59,6 +59,10 @@ return [
             'throw' => false,
             'report' => false,
         ],
+        'tmp' => [
+            'driver' => 'local',
+            'root' => '/tmp',
+        ],
 
     ],
 
