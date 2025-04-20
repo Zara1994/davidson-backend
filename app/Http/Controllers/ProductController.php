@@ -14,7 +14,18 @@ class ProductController extends Controller
     public function index($categoryId)
     {
         try {
-            $products = Product::where('category_id', $categoryId)->get();
+            $query = Product::where('category_id', $categoryId);
+
+            // Поиск по имени, если передан ?search=что-то
+            if (request()->has('search')) {
+                $search = request()->query('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%');
+                });
+            }
+
+            $products = $query->get();
 
             if ($products->isEmpty()) {
                 return response()->json([
