@@ -17,8 +17,9 @@ class VisitController extends Controller
                 'address' => 'required|string|max:255',
                 'phone_number' => 'required|string|max:20', // можно заменить на regex
                 'visit_date' => 'required|date|after_or_equal:today',
-                'visit_time' => 'required|date_format:H:i',
-            ]);
+                'visit_time' => 'required|array',
+                'visit_time.*' => 'in:all_day,morning,afternoon,evening',
+                ]);
 
             // Сохранение нового сообщения
             $visit = Visit::create($validated);

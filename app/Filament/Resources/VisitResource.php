@@ -8,6 +8,8 @@ use App\Models\Visit;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Forms\Form;
 
@@ -45,9 +47,16 @@ class VisitResource extends Resource
                     ->required()
                     ->minDate(now()),
 
-                Forms\Components\TimePicker::make('visit_time')
-                    ->label('Visit Time')
-                    ->required(),
+                Forms\Components\CheckboxList::make('visit_time')
+                    ->label('Preferred Time')
+                    ->options([
+                        'all_day' => 'All Day',
+                        'morning' => 'Morning (8am - 11am)',
+                        'afternoon' => 'Afternoon (12am - 4pm)',
+                        'evening' => 'Evening (5pm - 7pm)',
+                    ])
+                    ->required()
+                    ->columns(2)
             ]);
     }
 
@@ -77,11 +86,26 @@ class VisitResource extends Resource
                     ->label('Visit date')
                     ->sortable()
                     ->dateTime('d.m.Y'),
+                TextColumn::make('visit_time')
+                    ->label('Preferred Time')
+                    ->colors(['primary'])
+                    ->formatStateUsing(function ($state) {
+                        $labels = [
+                            'all_day' => 'All Day',
 
-                Tables\Columns\TextColumn::make('visit_time')
-                    ->label('Visit time')
-                    ->sortable(),
+                            'afternoon' => 'Afternoon (12am - 4pm)',
+                            'evening' => 'Evening (5pm - 7pm)',
+                        ];
 
+                        if (empty($state)) return '-';
+
+                        // Преобразуем значения в метки и соединяем их в строку через запятую
+                        return collect($state)
+                            ->map(function ($value) use ($labels) {
+                                return $labels[$value] ?? $value; // Возвращаем метку, если она есть, или значение по умолчанию
+                            })
+                            ->implode(', ');
+                    }),
             ])
             ->actions([
                 // Добавляем кастомное действие
@@ -105,7 +129,6 @@ class VisitResource extends Resource
         return [
             'index' => Pages\ListVisits::route('/'),
             'create' => Pages\CreateVisit::route('/create'),
-            'edit' => Pages\EditVisit::route('/{record}/edit'),
         ];
     }
 }

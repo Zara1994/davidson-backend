@@ -31,9 +31,10 @@ class CategoryResource extends Resource
                 TextInput::make('name')->required(),
                 Textarea::make('description')->required(),
                 FileUpload::make('image')
-                    ->disk('s3')
-                    ->directory('uploads') // или без папки
-                    ->visibility('public')
+                    ->image()
+                    ->directory('categories') // ✅ сохраняем в "categories"
+                    ->disk('public')
+                    ->visibility('public'),
             ]);
     }
 
@@ -52,7 +53,7 @@ class CategoryResource extends Resource
 
                 Tables\Columns\ImageColumn::make('image')
                     ->label('Image')
-                    ->disk('public'),
+                    ->height(50),
             ])
             ->filters([
                 //

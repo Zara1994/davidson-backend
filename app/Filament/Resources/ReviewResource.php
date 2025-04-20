@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ReviewResource extends Resource
 {
     protected static ?string $model = Review::class;
-    protected static ?string $navigationLabel = 'Projects';
+    protected static ?string $navigationLabel = 'Reviews';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 

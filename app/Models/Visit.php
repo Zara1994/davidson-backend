@@ -19,4 +19,7 @@ class Visit extends Model
         'visit_time',
         'seen'
     ];
+    protected $casts = [
+        'visit_time' => 'array',
+    ];
 }
