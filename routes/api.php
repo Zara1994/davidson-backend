@@ -13,9 +13,8 @@ use App\Http\Controllers\ReviewController;
     Route::apiResource('projects', ProjectController::class)->only(['index']);
     Route::apiResource('reviews', ReviewController::class)->only(['index']);
 
-    //https://davidson-backend.local/api/categories/1/products
-
     Route::apiResource('categories.products', ProductController::class)->only(['index']);
+    Route::get('products', [ProductController::class, 'allProducts']);
 
     Route::apiResource('contact', ContactController::class)->only(['store']);
     Route::apiResource('visit', \App\Http\Controllers\VisitController::class)->only(['store']);

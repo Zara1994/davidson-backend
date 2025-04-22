@@ -14,18 +14,9 @@ class ProductController extends Controller
     public function index($categoryId)
     {
         try {
-            $query = Product::where('category_id', $categoryId);
+            $products = Product::where('category_id', $categoryId);
 
             // Поиск по имени, если передан ?search=что-то
-            if (request()->has('search')) {
-                $search = request()->query('search');
-                $query->where(function ($q) use ($search) {
-                    $q->where('name', 'like', '%' . $search . '%')
-                        ->orWhere('description', 'like', '%' . $search . '%');
-                });
-            }
-
-            $products = $query->get();
 
             if ($products->isEmpty()) {
                 return response()->json([
@@ -47,6 +38,43 @@ class ProductController extends Controller
             ], 500);
         }
     }
+    public function allProducts()
+    {
+        try {
+            $query = Product::query();
+
+            // Поиск по имени или описанию
+            if (request()->has('search')) {
+                $search = request()->query('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%');
+                });
+            }
+
+            $products = $query->get();
+
+            if ($products->isEmpty()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'No products found',
+                    'data' => []
+                ], 200);
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $products
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Internal Server Error',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      */

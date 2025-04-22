@@ -44,7 +44,6 @@ class ProductResource extends Resource
                 Forms\Components\Select::make('category_id')
                     ->label('Category')
                     ->relationship('category', 'name')
-                    ->searchable()
                     ->required(),
             ]);
     }
