@@ -22,45 +22,48 @@ class AdvertisementResource extends Resource
 
     public static function form(Form $form): Form
     {
-       return $form->schema([
-           Select::make('type')
-               ->required()
-               ->default('image')
-               ->options([
-                   'image' => 'Image',
-                   'video' => 'Video',
-                   'text' => 'Text',
-               ])
-               ->reactive()
-               ->afterStateUpdated(fn($state, callable $set) => [
-                   $set('image_file', null),
-                   $set('video_file', null),
-                   $set('text', null),
-               ]),
+        return $form->schema([
+            Select::make('type')
+                ->required()
+                ->default('image')
+                ->options([
+                    'image' => 'Image',
+                    'video' => 'Video',
+                ])
+                ->reactive()
+                ->afterStateUpdated(fn($state, callable $set) => [
+                    $set('image_file', null),
+                    $set('video_file', null),
+                ]),
 
-           FileUpload::make('image_file')
-               ->label('Upload Image')
-               ->directory('advertisements/images')
-               ->acceptedFileTypes(['image/jpeg', 'image/png'])
-               ->visibility('public')
-               ->previewable(true)
-               ->visible(fn($get) => $get('type') === 'image'),
+            FileUpload::make('image_file')
+                ->label('Upload Image')
+                ->directory('advertisements/images')
+                ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                ->visibility('public')
+                ->previewable(true)
+                ->visible(fn($get) => $get('type') === 'image'),
 
-           FileUpload::make('video_file')
-               ->label('Upload Video')
-               ->directory('advertisements/videos')
-               ->acceptedFileTypes(['video/mp4', 'video/webm'])
-               ->visibility('public')
-               ->previewable(true)
-               ->downloadable(true)
-               ->visible(fn($get) => $get('type') === 'video'),
+            FileUpload::make('video_file')
+                ->label('Upload Video')
+                ->directory('advertisements/videos')
+                ->acceptedFileTypes(['video/mp4', 'video/webm'])
+                ->visibility('public')
+                ->previewable(true)
+                ->downloadable(true)
+                ->visible(fn($get) => $get('type') === 'video'),
 
-           Forms\Components\Textarea::make('text')
-               ->label('Text Content')
-               ->rows(5)
-               ->visible(fn($get) => $get('type') === 'text'),
-
-       ]);
+            Forms\Components\Textarea::make('text')
+                ->label('Text Content')
+                ->rows(5)
+                ->visible(fn($get) => in_array($get('type'), ['image', 'video'])),
+            Toggle::make('is_active')
+                ->label('Active')
+                ->inline(false)
+                ->onColor('success')
+                ->offColor('danger')
+                ->default(true),
+        ]);
     }
 
     public static function table(Table $table): Table
@@ -70,7 +73,13 @@ class AdvertisementResource extends Resource
                 TextColumn::make('type')->sortable(),
                 TextColumn::make('file')->limit(30),
                 TextColumn::make('text')->limit(30),
-                TextColumn::make('is_active')->label('Active'),
+                Tables\Columns\IconColumn::make('is_active')
+                    ->label('Active')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->trueColor('success')
+                    ->falseColor('danger'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

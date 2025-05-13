@@ -28,10 +28,9 @@ class CreateAdvertisement extends CreateRecord
         return $data;
     }
 
-
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        // dlya sohranyeniya to zhe samoe
         return $this->mutateFormDataBeforeCreate($data);
     }
+
 }
