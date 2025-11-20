@@ -46,6 +46,7 @@ class ShowroomSliderResource extends Resource
             // Поле для загрузки изображения
             FileUpload::make('image_file')
                 ->label('Upload Image')
+                ->disk('public')                // <--- обязательно!
                 ->directory('showroom/images')
                 ->acceptedFileTypes(['image/jpeg', 'image/png'])
                 ->visibility('public')
@@ -55,7 +56,9 @@ class ShowroomSliderResource extends Resource
             // Поле для загрузки видео
             FileUpload::make('video_file')
                 ->label('Upload Video')
+                ->disk('public')                // <--- обязательно!
                 ->directory('showroom/videos')
+//                ->acceptedFileTypes(['*.mp4', '*.webm'])
                 ->acceptedFileTypes(['video/mp4', 'video/webm'])
                 ->visibility('public')
                 ->previewable(true)
